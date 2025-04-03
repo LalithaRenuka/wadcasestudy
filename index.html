@@ -7,67 +7,82 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Navbar Styling */
+        /* Navbar */
         .navbar {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            text-align: center;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 50;
         }
-        .navbar a {
-            position: relative;
+        .navbar .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-links a {
             text-decoration: none;
-            padding-bottom: 4px;
-            transition: all 0.3s ease-in-out;
             font-size: 1rem;
+            color: black;
+            transition: all 0.3s ease;
+            position: relative;
         }
-        .navbar a::after {
-            content: "";
-            position: absolute;
-            width: 0%;
-            height: 2px;
-            background: #2563eb;
-            left: 50%;
-            bottom: 0;
-            transition: all 0.3s ease-in-out;
-            transform: translateX(-50%);
-        }
-        .navbar a:hover {
+        .nav-links a:hover {
             color: #2563eb;
             transform: scale(1.1);
         }
-        .navbar a:hover::after {
+        .nav-links a:hover::after {
+            content: "";
+            position: absolute;
             width: 100%;
+            height: 2px;
+            background: #2563eb;
+            bottom: -4px;
+            left: 0;
+        }
+        
+        /* Mobile Navbar */
+        .menu-toggle {
+            display: none;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: white;
+                position: absolute;
+                top: 60px;
+                right: 0;
+                width: 200px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .menu-toggle {
+                display: block;
+            }
         }
 
         /* Hero Section */
         .hero {
-            position: relative;
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), 
-                        url('./static/image.jpg') center/cover no-repeat;
-            height: auto;
-            min-height: 80vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             text-align: center;
             color: white;
-            padding: 10% 5%;
+            padding: 5rem 2rem;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url('./static/image.jpg') center/cover;
         }
         .hero h1 {
             font-size: 2.5rem;
             font-weight: bold;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
-            animation: fadeIn 2s ease-in-out;
         }
         .hero p {
-            font-size: 1rem;
-            animation: fadeIn 2.5s ease-in-out;
-        }
-        @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(-20px); }
-            100% { opacity: 1; transform: translateY(0); }
+            font-size: 1.1rem;
+            margin-top: 10px;
         }
 
         /* Buttons */
@@ -76,108 +91,124 @@
             color: white;
             padding: 12px 24px;
             border-radius: 8px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: bold;
             transition: transform 0.3s, box-shadow 0.3s;
-            width: 100%;
-            max-width: 280px;
+            margin-top: 10px;
         }
         .cta-button:hover {
             transform: scale(1.05);
             box-shadow: 0 0 10px rgba(37, 99, 235, 0.7);
         }
 
+        /* Feedback & Rating */
+        .feedback-section {
+            text-align: center;
+            padding: 2rem;
+        }
+        .stars {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .stars .fa-star {
+            color: gray;
+            transition: color 0.3s ease;
+        }
+        .stars .fa-star:hover,
+        .stars .fa-star.active {
+            color: gold;
+        }
+
+        /* Flight Animation */
+        .flight {
+            position: absolute;
+            top: 90px;
+            left: -100px;
+            font-size: 3rem;
+            animation: moveFlight 10s linear infinite;
+        }
+        @keyframes moveFlight {
+            0% { left: -100px; opacity: 0; }
+            10% { opacity: 1; }
+            100% { left: 100vw; opacity: 0; }
+        }
+
         /* Auto Animation */
-        .auto-container {
+        .auto {
             position: fixed;
             bottom: 20px;
             left: -100px;
             font-size: 4.5rem;
-            animation: moveAuto 10s linear infinite;
+            animation: moveAuto 8s linear infinite;
             transform: scaleX(-1);
         }
         @keyframes moveAuto {
             0% { left: -100px; }
             100% { left: 100vw; }
         }
-
-        /* Flight Animation */
-        .flight-container {
-            position: absolute;
-            top: 90px;
-            left: -150px;
-            font-size: 3rem;
-            animation: moveFlight 12s linear infinite;
-        }
-        @keyframes moveFlight {
-            0% { left: -150px; opacity: 0; }
-            20% { opacity: 1; }
-            100% { left: 100vw; opacity: 0; }
-        }
-
-        /* Responsive Adjustments */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-            .hero p {
-                font-size: 0.9rem;
-            }
-            .navbar {
-                flex-direction: column;
-                gap: 10px;
-            }
-            .flight-container {
-                font-size: 2rem;
-                top: 60px;
-            }
-        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800 font-sans">
     
     <!-- Navigation -->
-    <nav class="bg-white p-4 shadow-lg sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <img src="static/R.png" alt="Logo" class="w-14 h-14"> 
-                <h2 class="text-gray-800 text-3xl font-extrabold">RideWise</h2>
-            </div>
-            <div class="navbar flex gap-10 text-lg">
-                <a href="/dashboard">Home</a>
-                <a href="/check">Compare Rides</a>
-                <a href="/flights">Compare Flights</a>
-                <a href="/act">Activities</a>
-                <a href="/" class="text-red-600 hover:text-red-800">Logout</a>
-            </div>
+    <nav class="navbar">
+        <div class="flex items-center gap-3">
+            <img src="static/R.png" alt="Logo" class="w-12 h-12"> 
+            <h2 class="text-gray-800 text-2xl font-extrabold">RideWise</h2>
         </div>
+        <div class="nav-links">
+            <a href="/dashboard">Home</a>
+            <a href="/check">Compare Rides</a>
+            <a href="/flights">Compare Flights</a>
+            <a href="/act">Activities</a>
+            <a href="/" class="text-red-600 hover:text-red-800">Logout</a>
+        </div>
+        <div class="menu-toggle"><i class="fas fa-bars"></i></div>
     </nav>
 
     <!-- Flight Animation -->
-    <div class="flight-container">✈️</div>
+    <div class="flight">✈️</div>
 
     <!-- Hero Section -->
     <header class="hero">
         <h1>Compare & Save on <span class="text-blue-400">Rides & Flights</span></h1>
-        <p class="mt-4 italic">Find the best deals for both rides and flights instantly!</p>
-        <div class="flex gap-6 mt-6">
+        <p>Find the best deals for both rides and flights instantly!</p>
+        <div class="flex gap-6 mt-6 justify-center">
             <a href="/check" class="cta-button">Compare Ride Costs</a>
             <a href="/flights" class="cta-button">Compare Flight Costs</a>
         </div>
     </header>
 
     <!-- Auto Animation -->
-    <div class="auto-container">🛺</div>
+    <div class="auto">🛺</div>
+
+    <!-- Feedback & Rating -->
+    <div class="feedback-section">
+        <h2 class="text-2xl font-bold">Rate Your Experience</h2>
+        <div class="stars">
+            <i class="fa fa-star" data-value="1"></i>
+            <i class="fa fa-star" data-value="2"></i>
+            <i class="fa fa-star" data-value="3"></i>
+            <i class="fa fa-star" data-value="4"></i>
+            <i class="fa fa-star" data-value="5"></i>
+        </div>
+    </div>
 
     <script>
-        // Star Rating Interaction
-        const stars = document.querySelectorAll(".star-rating .fa-star");
+        // Navbar Toggle for Mobile
+        document.querySelector('.menu-toggle').addEventListener('click', function () {
+            document.querySelector('.nav-links').classList.toggle('open');
+        });
+
+        // Star Rating
+        const stars = document.querySelectorAll(".stars .fa-star");
         stars.forEach(star => {
-            star.addEventListener("click", function() {
+            star.addEventListener("click", function () {
                 let value = this.getAttribute("data-value");
-                stars.forEach(s => {
-                    s.classList.remove("active");
-                });
+                stars.forEach(s => s.classList.remove("active"));
                 for (let i = 0; i < value; i++) {
                     stars[i].classList.add("active");
                 }
